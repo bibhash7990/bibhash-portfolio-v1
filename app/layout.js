@@ -24,9 +24,9 @@ const themeScript = `
 `;
 
 export const metadata = {
-  title: "Portfolio of Bibhash Lenka - MERN Stack Developer",
+  title: "Portfolio of Bibhash Lenka - Full Stack Developer",
   description:
-    "This is the portfolio of Bibhash Lenka. I am a MERN / full-stack developer with 4.5+ years of experience shipping production web applications across B2B SaaS, operations, and fintech. Core stack: React.js, TypeScript, Node.js (Express.js, Hapi.js), and MongoDB, with REST API design, multi-tenant architecture, OAuth 2.0 integrations, and automated testing.",
+    "This is the portfolio of Bibhash Lenka. I am a full-stack developer with 4.5+ years of experience shipping production web applications across B2B SaaS, operations, and fintech. Core stack: React.js, TypeScript, Node.js (Express.js, Hapi.js), and MongoDB, with REST API design, multi-tenant architecture, OAuth 2.0 integrations, and automated testing.",
 };
 
 export default function RootLayout({ children }) {

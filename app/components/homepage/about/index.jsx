@@ -3,11 +3,18 @@
 import { aboutHighlights, personalData } from "@/utils/data/personal-data";
 import Image from "next/image";
 import { BsCheck2Circle } from "react-icons/bs";
+import NeuralVortex from "../../helper/neural-vortex";
 import Reveal from "../../helper/reveal";
 
 function AboutSection() {
   return (
     <div id="about" className="my-12 lg:my-24 relative z-50">
+      {/* Interactive WebGL vortex background, scoped to the About section and
+          masked at the edges so it fades into the page. Pauses when off-screen. */}
+      <div className="pointer-events-none absolute -inset-x-6 -inset-y-16 sm:-inset-x-12 -z-10 overflow-hidden [mask-image:radial-gradient(120%_80%_at_50%_50%,#000_50%,transparent_100%)]">
+        <NeuralVortex className="absolute inset-0 h-full w-full opacity-70" />
+      </div>
+
       <div className="hidden lg:flex flex-col items-center absolute top-16 -right-8">
         <span className="bg-label w-fit text-label-text rotate-90 p-2 px-5 text-xl rounded-md">
           ABOUT ME

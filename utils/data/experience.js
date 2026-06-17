@@ -6,7 +6,7 @@ export const experiences = [
     location: "Remote",
     duration: "(May 2026 - Present)",
     bullets: [
-      "Available for full-stack MERN engagements — architecture through production release, with end-to-end ownership of REST API design, multi-tenant isolation, OAuth 2.0 integrations, and automated testing.",
+      "Available for full-stack engagements — architecture through production release, with end-to-end ownership of REST API design, multi-tenant isolation, OAuth 2.0 integrations, and automated testing.",
       "Build production-grade React.js / TypeScript frontends (Vite, Tailwind, Radix/shadcn, Redux Toolkit, TanStack Query, Zustand) and Node.js backends (Express.js, Hapi.js, MongoDB/Mongoose).",
       "Integrate third-party services with confidence — Stripe, Clerk, AWS S3, Gmail/Google OAuth, Twilio, Razorpay — and ship background automation with Trigger.dev and node-cron.",
       "Deliver clean, reviewed, well-tested code (Vitest, Playwright) with CI/CD git-based deploys to Vercel, Netlify, and Railway.",
@@ -14,7 +14,7 @@ export const experiences = [
   },
   {
     id: 2,
-    title: 'Software Developer (MERN Stack)',
+    title: 'Software Developer (Full Stack)',
     company: "Techfidants",
     location: "Surat, Gujarat",
     duration: "(July 2025 - May 2026)",

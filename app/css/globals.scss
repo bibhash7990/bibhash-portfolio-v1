@@ -351,6 +351,21 @@ body {
   }
 }
 
+/* ---- Spotlight sweep (for the projects 3D panel) ---- */
+.animate-spotlight {
+  animation: spotlight 2s ease 0.5s 1 forwards;
+}
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+
 /* ---- Animated gradient text accent ---- */
 .text-gradient {
   background: linear-gradient(90deg, #ec4899, #8b5cf6, #16f2b3);

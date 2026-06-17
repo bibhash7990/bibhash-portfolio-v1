@@ -54,8 +54,8 @@ function Skills() {
                       alt={skill}
                       width={40}
                       height={40}
-                      className="!h-full !w-auto rounded-lg"
-                      style={{ width: 'auto', height: 'auto' }}
+                      className="rounded-lg"
+                      style={{ height: "100%", width: "auto" }}
                     />
                   </div>
                   <p className="text-content text-sm sm:text-lg">

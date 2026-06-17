@@ -11,9 +11,10 @@ import NeuralVortex from "../../helper/neural-vortex";
 function HeroSection() {
   return (
     <section className="relative z-50 flex flex-col items-center justify-between py-4 lg:py-12">
-      {/* Interactive WebGL vortex background, scoped to the hero. Sits behind
-          content and is masked at the edges so it fades into the page. */}
-      <div className="pointer-events-none absolute -inset-x-6 -top-24 sm:-inset-x-12 -z-10 h-[140%] overflow-hidden [mask-image:radial-gradient(120%_80%_at_50%_30%,#000_55%,transparent_100%)]">
+      {/* Interactive WebGL vortex background. Extends below the hero so it also
+          flows behind the Stats section (which overlaps the hero's bottom),
+          giving one continuous backdrop. Masked at the edges to fade into the page. */}
+      <div className="pointer-events-none absolute -inset-x-6 -top-24 -bottom-80 sm:-inset-x-12 -z-10 overflow-hidden [mask-image:radial-gradient(110%_85%_at_50%_35%,#000_60%,transparent_100%)]">
         {/* CSS-only fallback (shown when WebGL is unavailable or reduced-motion):
             the original animated gradient blobs. */}
         <div className="blob blob-pink w-[260px] h-[260px] top-10 left-4 lg:w-[360px] lg:h-[360px]" />
