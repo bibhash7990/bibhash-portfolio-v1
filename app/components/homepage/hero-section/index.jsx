@@ -1,35 +1,35 @@
 // @flow strict
 
 import { personalData } from "@/utils/data/personal-data";
-import Image from "next/image";
 import Link from "next/link";
 import { BsGithub, BsLinkedin } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import { MdDownload } from "react-icons/md";
 import { RiContactsFill } from "react-icons/ri";
+import NeuralVortex from "../../helper/neural-vortex";
 
 function HeroSection() {
   return (
-    <section className="relative flex flex-col items-center justify-between py-4 lg:py-12">
-      {/* animated floating gradient blobs (clipped to their own full-bleed layer so they don't crop the hero.svg) */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="blob blob-pink w-[260px] h-[260px] -top-16 -left-16 lg:w-[360px] lg:h-[360px]" />
-        <div className="blob blob-violet w-[300px] h-[300px] top-10 -right-10 lg:w-[400px] lg:h-[400px]" />
-        <div className="blob blob-teal w-[200px] h-[200px] bottom-0 left-1/3 lg:w-[280px] lg:h-[280px]" />
+    <section className="relative z-50 flex flex-col items-center justify-between py-4 lg:py-12">
+      {/* Interactive WebGL vortex background, scoped to the hero. Sits behind
+          content and is masked at the edges so it fades into the page. */}
+      <div className="pointer-events-none absolute -inset-x-6 -top-24 sm:-inset-x-12 -z-10 h-[140%] overflow-hidden [mask-image:radial-gradient(120%_80%_at_50%_30%,#000_55%,transparent_100%)]">
+        {/* CSS-only fallback (shown when WebGL is unavailable or reduced-motion):
+            the original animated gradient blobs. */}
+        <div className="blob blob-pink w-[260px] h-[260px] top-10 left-4 lg:w-[360px] lg:h-[360px]" />
+        <div className="blob blob-violet w-[300px] h-[300px] top-24 right-4 lg:w-[400px] lg:h-[400px]" />
+        <div className="blob blob-teal w-[200px] h-[200px] bottom-10 left-1/3 lg:w-[280px] lg:h-[280px]" />
+        <NeuralVortex className="absolute inset-0 h-full w-full opacity-90" />
       </div>
-
-      <Image
-        src="/hero.svg"
-        alt="Hero"
-        width={1572}
-        height={795}
-        className="absolute -top-[98px] -z-10"
-        priority
-      />
 
       <div className="grid grid-cols-1 items-start lg:grid-cols-2 lg:gap-12 gap-y-8">
         <div className="order-2 lg:order-1 flex flex-col items-start justify-center p-2 pb-20 md:pb-10 lg:pt-10">
-          <h1 className="text-3xl font-bold leading-10 text-content md:font-extrabold lg:text-[2.6rem] lg:leading-[3.5rem]">
+          <div className="hero-enter mb-6 inline-flex items-center gap-2 rounded-full border border-[#16f2b3]/30 bg-[#16f2b3]/10 px-3 py-1.5 text-xs font-medium text-[#16f2b3]">
+            <span className="pulse-dot relative inline-flex h-2 w-2 rounded-full bg-[#16f2b3]" />
+            Available for new opportunities
+          </div>
+
+          <h1 className="hero-enter text-3xl font-bold leading-10 text-content md:font-extrabold lg:text-[2.6rem] lg:leading-[3.5rem]" style={{ "--enter-delay": "100ms" }}>
             Hello, <br />
             This is {' '}
             <span className="text-gradient font-bold">{personalData.name}</span>
@@ -38,31 +38,34 @@ function HeroSection() {
             .
           </h1>
 
-          <div className="my-12 flex items-center gap-5">
+          <div className="hero-enter my-12 flex items-center gap-5" style={{ "--enter-delay": "200ms" }}>
             <Link
               href={personalData.github}
               target='_blank'
-              className="transition-all text-pink-500 hover:scale-125 duration-300"
+              aria-label="GitHub profile"
+              className="text-pink-500 transition-colors duration-300 hover:text-[#16f2b3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16f2b3] focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
             >
               <BsGithub size={30} />
             </Link>
             <Link
               href={personalData.linkedIn}
               target='_blank'
-              className="transition-all text-pink-500 hover:scale-125 duration-300"
+              aria-label="LinkedIn profile"
+              className="text-pink-500 transition-colors duration-300 hover:text-[#16f2b3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16f2b3] focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
             >
               <BsLinkedin size={30} />
             </Link>
             <Link
               href={personalData.twitter}
               target='_blank'
-              className="transition-all text-pink-500 hover:scale-125 duration-300"
+              aria-label="Personal website"
+              className="text-pink-500 transition-colors duration-300 hover:text-[#16f2b3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16f2b3] focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded-md"
             >
               <CgWebsite size={30} />
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="hero-enter flex items-center gap-3" style={{ "--enter-delay": "300ms" }}>
             <Link href="#contact" className="bg-gradient-to-r to-pink-500 from-violet-600 p-[1px] rounded-full transition-all duration-300 hover:from-pink-500 hover:to-violet-600">
               <button className="px-3 text-xs md:px-8 py-3 md:py-4 bg-surface rounded-full border-none text-center md:text-sm font-medium uppercase tracking-wider text-content no-underline transition-all duration-200 ease-out  md:font-semibold flex items-center gap-1 hover:gap-3">
                 <span>Contact me</span>

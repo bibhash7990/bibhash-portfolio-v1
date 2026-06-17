@@ -82,14 +82,15 @@ function ContactForm() {
   };
 
   return (
-    <div>
-      <p className="font-medium mb-5 text-[#16f2b3] text-xl uppercase">Contact with me</p>
-      <div className="max-w-3xl text-content rounded-lg border border-line-2 p-3 lg:p-5">
-        <p className="text-sm text-content-secondary">{"If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests."}</p>
-        <div className="mt-6 flex flex-col gap-4">
+    <div className="flex flex-col text-content">
+      <p className="text-sm text-content-secondary">{"Have a question or an opportunity in mind? Send me a message and I'll get back to you."}</p>
+      <div className="mt-6 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label className="text-base">Your Name: </label>
+            <label htmlFor="contact-name" className="text-base">Your Name: </label>
             <input
+              id="contact-name"
+              name="name"
+              autoComplete="name"
               className="bg-input w-full border rounded-md border-line-2 focus:border-[#16f2b3] ring-0 outline-0 transition-all duration-300 px-3 py-2"
               type="text"
               maxLength="100"
@@ -101,12 +102,17 @@ function ContactForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-base">Your Email: </label>
+            <label htmlFor="contact-email" className="text-base">Your Email: </label>
             <input
+              id="contact-email"
+              name="email"
+              autoComplete="email"
               className="bg-input w-full border rounded-md border-line-2 focus:border-[#16f2b3] ring-0 outline-0 transition-all duration-300 px-3 py-2"
               type="email"
               maxLength="100"
               required={true}
+              aria-invalid={error.email}
+              aria-describedby={error.email ? "contact-email-error" : undefined}
               value={userInput.email}
               onChange={(e) => setUserInput({ ...userInput, email: e.target.value })}
               onBlur={() => {
@@ -114,12 +120,13 @@ function ContactForm() {
                 setError({ ...error, email: !isValidEmail(userInput.email) });
               }}
             />
-            {error.email && <p className="text-sm text-red-400">Please provide a valid email!</p>}
+            {error.email && <p id="contact-email-error" role="alert" className="text-sm text-red-400">Please provide a valid email!</p>}
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-base">Your Message: </label>
+            <label htmlFor="contact-message" className="text-base">Your Message: </label>
             <textarea
+              id="contact-message"
               className="bg-input w-full border rounded-md border-line-2 focus:border-[#16f2b3] ring-0 outline-0 transition-all duration-300 px-3 py-2"
               maxLength="500"
               name="message"
@@ -131,14 +138,15 @@ function ContactForm() {
             />
           </div>
           <div className="flex flex-col items-center gap-3">
-            {error.required && <p className="text-sm text-red-400">
-              All fiels are required!
+            {error.required && <p role="alert" className="text-sm text-red-400">
+              All fields are required!
             </p>}
             <button
-              className="flex items-center gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-5 md:px-12 py-2.5 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all duration-200 ease-out hover:text-white hover:no-underline md:font-semibold"
-              role="button"
+              type="submit"
+              className="flex items-center gap-1 hover:gap-3 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-5 md:px-12 py-2.5 md:py-3 text-center text-xs md:text-sm font-medium uppercase tracking-wider text-white no-underline transition-all duration-200 ease-out hover:text-white hover:no-underline md:font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16f2b3] focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:opacity-70 disabled:cursor-not-allowed"
               onClick={handleSendMail}
               disabled={isLoading}
+              aria-busy={isLoading}
             >
               {
                 isLoading ?
@@ -151,7 +159,6 @@ function ContactForm() {
             </button>
           </div>
         </div>
-      </div>
     </div>
   );
 };

@@ -69,7 +69,7 @@ function Experience() {
                     <div className="px-3 py-5">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
                         <div className="flex items-center gap-x-4">
-                          <div className="text-violet-500 transition-all duration-300 hover:scale-125">
+                          <div className="text-violet-500 transition-colors duration-300 hover:text-[#16f2b3]">
                             <BsPersonWorkspace size={32} />
                           </div>
                           <div>

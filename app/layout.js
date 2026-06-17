@@ -3,24 +3,23 @@ import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/footer";
+import CursorGlow from "./components/helper/cursor-glow";
+import ScrollProgress from "./components/helper/scroll-progress";
 import ScrollToTop from "./components/helper/scroll-to-top";
+// import TubesCursor from "./components/helper/tubes-cursor"; // disabled for now — using CursorGlow
 import { ThemeProvider } from "./components/helper/theme-provider";
 import Navbar from "./components/navbar";
 import "./css/card.scss";
 import "./css/globals.scss";
 const inter = Inter({ subsets: ["latin"] });
 
-// Runs before first paint to set the theme (no flash of the wrong theme).
-// Default is ALWAYS dark; only a previously saved choice overrides it.
+// Dark-only for now (the light-mode toggle has been removed). Force dark before
+// first paint and ignore any previously saved 'light' preference.
 const themeScript = `
 (function() {
   try {
-    var stored = localStorage.getItem('theme');
-    var theme = (stored === 'light' || stored === 'dark') ? stored : 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-  } catch (e) {
     document.documentElement.setAttribute('data-theme', 'dark');
-  }
+  } catch (e) {}
 })();
 `;
 
@@ -38,8 +37,11 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider>
+          <ScrollProgress />
+          {/* <TubesCursor /> disabled for now — restored the subtle cursor-glow */}
+          <CursorGlow />
           <ToastContainer />
-          <main className="min-h-screen relative mx-auto px-6 sm:px-12 lg:max-w-[70rem] xl:max-w-[76rem] 2xl:max-w-[92rem] text-content">
+          <main className="min-h-screen relative mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-16 max-w-[120rem] text-content">
             <Navbar />
             {children}
             <ScrollToTop />

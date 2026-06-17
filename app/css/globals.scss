@@ -124,9 +124,29 @@
 }
 
 body {
+  /* Safety net: never allow a stray wide child (e.g. the skills marquee) to
+     create a horizontal scrollbar on small screens. Applied to body only —
+     putting overflow-x on <html> would break the sticky navbar. */
+  overflow-x: hidden;
+  max-width: 100%;
   color: var(--text);
   background-color: var(--bg);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---- Global keyboard focus ring ----
+   Visible only for keyboard users (:focus-visible), never on mouse click.
+   Uses the brand teal and offsets against the page background so it reads
+   in both themes. Components may override with their own ring colour. */
+:focus-visible {
+  outline: 2px solid #16f2b3;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Elements that opt into a Tailwind ring manage their own focus styles. */
+.focus-visible\:ring-2:focus-visible,
+[class*="focus-visible:ring"]:focus-visible {
+  outline: none;
 }
 
 #sticky-card-1 {
@@ -240,6 +260,94 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .blob {
     animation: none;
+  }
+}
+
+/* ---- Hero entrance (above-the-fold, plays on load not on scroll) ---- */
+.hero-enter {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: hero-enter-anim 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+@keyframes hero-enter-anim {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Availability badge pulse dot ---- */
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #16f2b3;
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .pulse-dot::before {
+    animation: none;
+  }
+}
+
+/* ---- Cursor-following spotlight glow (desktop only) ----
+   A soft brand-coloured orb positioned via JS transform. Subtle by design:
+   low opacity + heavy blur so it reads as ambient light, not a hard shape.
+   Behind content (-z-10) and pointer-events: none, so it never blocks clicks. */
+.cursor-glow {
+  width: 480px;
+  height: 480px;
+  border-radius: 9999px;
+  opacity: 0;
+  filter: blur(70px);
+  background: radial-gradient(
+    circle at center,
+    rgba(22, 242, 179, 0.18) 0%,
+    rgba(139, 92, 246, 0.12) 40%,
+    rgba(236, 72, 153, 0.08) 65%,
+    transparent 75%
+  );
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+
+/* Lighter, cooler glow on the light theme so it doesn't muddy the page. */
+[data-theme="light"] .cursor-glow {
+  filter: blur(80px);
+  background: radial-gradient(
+    circle at center,
+    rgba(22, 242, 179, 0.12) 0%,
+    rgba(139, 92, 246, 0.08) 45%,
+    transparent 70%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
   }
 }
 

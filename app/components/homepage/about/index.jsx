@@ -7,7 +7,7 @@ import Reveal from "../../helper/reveal";
 
 function AboutSection() {
   return (
-    <div id="about" className="my-12 lg:my-16 relative">
+    <div id="about" className="my-12 lg:my-24 relative z-50">
       <div className="hidden lg:flex flex-col items-center absolute top-16 -right-8">
         <span className="bg-label w-fit text-label-text rotate-90 p-2 px-5 text-xl rounded-md">
           ABOUT ME
