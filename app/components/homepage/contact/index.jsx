@@ -11,7 +11,7 @@ import ContactForm from './contact-form';
 
 function ContactSection() {
   return (
-    <div id="contact" className="my-12 lg:my-24 relative z-50 mt-24 text-content">
+    <div id="contact" className="section-root my-12 lg:my-24 relative z-50 mt-24 text-content">
       {/* Animated shader background, scoped behind the contact content. Masked
           at the edges so it fades into the page instead of being a hard block. */}
       <div className="pointer-events-none absolute -inset-x-6 -inset-y-10 -z-10 overflow-hidden rounded-3xl [mask-image:radial-gradient(120%_90%_at_50%_50%,#000_55%,transparent_100%)]">

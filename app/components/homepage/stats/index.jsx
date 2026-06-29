@@ -104,7 +104,7 @@ function Stats() {
   }, []);
 
   return (
-    <div ref={ref} className="relative z-50 my-8 lg:my-12">
+    <div ref={ref} className="section-root relative z-50 my-8 lg:my-12">
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
         {statsData.map((stat) => (
           <StatCard

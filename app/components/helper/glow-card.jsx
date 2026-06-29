@@ -1,76 +1,123 @@
 "use client"
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+// --- Shared pointer-tracking for ALL GlowCards ---
+// Instead of every card attaching its own pointermove listener (which causes
+// N getBoundingClientRect calls per frame), we run a single rAF-driven loop
+// that updates every card once per frame. Cards register/unregister via a
+// static registry.
+
+const CONFIG = {
+  proximity: 40,
+  spread: 80,
+  blur: 12,
+  gap: 32,
+  vertical: false,
+  opacity: 0,
+};
+
+let registeredCards = [];
+let pointerX = -9999;
+let pointerY = -9999;
+let rafId = null;
+let hasFinePointer = false;
+
+function updateAllCards() {
+  for (let i = 0; i < registeredCards.length; i++) {
+    const entry = registeredCards[i];
+    const card = entry.card;
+    if (!card || !card.isConnected) {
+      registeredCards.splice(i, 1);
+      i--;
+      continue;
+    }
+
+    const bounds = card.getBoundingClientRect();
+
+    const near =
+      pointerX > bounds.left - CONFIG.proximity &&
+      pointerX < bounds.left + bounds.width + CONFIG.proximity &&
+      pointerY > bounds.top - CONFIG.proximity &&
+      pointerY < bounds.top + bounds.height + CONFIG.proximity;
+
+    card.style.setProperty('--active', near ? 1 : CONFIG.opacity);
+
+    if (near) {
+      const cx = bounds.left + bounds.width * 0.5;
+      const cy = bounds.top + bounds.height * 0.5;
+      let angle = (Math.atan2(pointerY - cy, pointerX - cx) * 180) / Math.PI;
+      angle = angle < 0 ? angle + 360 : angle;
+      card.style.setProperty('--start', angle + 90);
+    }
+  }
+
+  if (registeredCards.length > 0) {
+    rafId = requestAnimationFrame(updateAllCards);
+  } else {
+    rafId = null;
+  }
+}
+
+function onPointerMove(e) {
+  pointerX = e.clientX;
+  pointerY = e.clientY;
+}
+
+function onPointerLeave() {
+  pointerX = -9999;
+  pointerY = -9999;
+}
+
+// Initialize once: check pointer type and attach shared listeners.
+let initialized = false;
+function ensureSharedListeners() {
+  if (initialized) return;
+  initialized = true;
+
+  hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+  // Only run glow effect on fine pointer (mouse / trackpad).
+  if (!hasFinePointer) return;
+
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  document.documentElement.addEventListener('mouseleave', onPointerLeave);
+}
+
+function scheduleUpdate() {
+  if (!rafId && registeredCards.length > 0 && hasFinePointer) {
+    rafId = requestAnimationFrame(updateAllCards);
+  }
+}
 
 const GlowCard = ({ children , identifier}) => {
+  const cardRef = useRef(null);
+
   useEffect(() => {
-    const CONTAINER = document.querySelector(`.glow-container-${identifier}`);
-    const CARDS = document.querySelectorAll(`.glow-card-${identifier}`);
+    ensureSharedListeners();
+    return () => {}; // noop — shared listeners live forever
+  }, []);
 
-    const CONFIG = {
-      proximity: 40,
-      spread: 80,
-      blur: 12,
-      gap: 32,
-      vertical: false,
-      opacity: 0,
-    };
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
 
-    const UPDATE = (event) => {
-      for (const CARD of CARDS) {
-        const CARD_BOUNDS = CARD.getBoundingClientRect();
+    // Register this card with the shared update loop.
+    const entry = { card, identifier };
+    registeredCards.push(entry);
+    scheduleUpdate();
 
-        if (
-          event?.x > CARD_BOUNDS.left - CONFIG.proximity &&
-          event?.x < CARD_BOUNDS.left + CARD_BOUNDS.width + CONFIG.proximity &&
-          event?.y > CARD_BOUNDS.top - CONFIG.proximity &&
-          event?.y < CARD_BOUNDS.top + CARD_BOUNDS.height + CONFIG.proximity
-        ) {
-          CARD.style.setProperty('--active', 1);
-        } else {
-          CARD.style.setProperty('--active', CONFIG.opacity);
-        }
-
-        const CARD_CENTER = [
-          CARD_BOUNDS.left + CARD_BOUNDS.width * 0.5,
-          CARD_BOUNDS.top + CARD_BOUNDS.height * 0.5,
-        ];
-
-        let ANGLE =
-          (Math.atan2(event?.y - CARD_CENTER[1], event?.x - CARD_CENTER[0]) *
-            180) /
-          Math.PI;
-
-        ANGLE = ANGLE < 0 ? ANGLE + 360 : ANGLE;
-
-        CARD.style.setProperty('--start', ANGLE + 90);
-      }
-    };
-
-    document.body.addEventListener('pointermove', UPDATE);
-
-    const RESTYLE = () => {
-      CONTAINER.style.setProperty('--gap', CONFIG.gap);
-      CONTAINER.style.setProperty('--blur', CONFIG.blur);
-      CONTAINER.style.setProperty('--spread', CONFIG.spread);
-      CONTAINER.style.setProperty(
-        '--direction',
-        CONFIG.vertical ? 'column' : 'row'
-      );
-    };
-
-    RESTYLE();
-    UPDATE();
-
-    // Cleanup event listener
     return () => {
-      document.body.removeEventListener('pointermove', UPDATE);
+      const idx = registeredCards.indexOf(entry);
+      if (idx !== -1) registeredCards.splice(idx, 1);
     };
   }, [identifier]);
 
   return (
     <div className={`glow-container-${identifier} glow-container`}>
-      <article className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-line-strong transition-all duration-300 relative bg-surface-2 text-content-secondary rounded-xl hover:border-transparent w-full`}>
+      <article
+        ref={cardRef}
+        className={`glow-card glow-card-${identifier} h-fit cursor-pointer border border-line-strong transition-all duration-300 relative bg-surface-2 text-content-secondary rounded-xl hover:border-transparent w-full`}
+      >
         <div className="glows"></div>
         {children}
       </article>

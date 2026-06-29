@@ -26,7 +26,7 @@ function Languages() {
   }, []);
 
   return (
-    <div id="languages" className="relative z-50 border-t my-12 lg:my-24 border-divider">
+    <div id="languages" className="section-root relative z-50 border-t my-12 lg:my-24 border-divider">
       <div className="flex justify-center -translate-y-[1px]">
         <div className="w-3/4">
           <div className="h-[1px] bg-gradient-to-r from-transparent via-violet-500 to-transparent w-full" />

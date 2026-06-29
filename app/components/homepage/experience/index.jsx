@@ -11,15 +11,14 @@ import Reveal from "../../helper/reveal";
 
 function Experience() {
   return (
-    <div id="experience" className="relative z-50 border-t my-12 lg:my-24 border-divider">
+    <div id="experience" className="section-root relative z-50 border-t my-12 lg:my-24 border-divider">
       <Image
         src="/section.svg"
         alt=""
         width={1572}
         height={795}
         className="absolute top-0 -z-10"
-        style={{ width: "auto", height: "auto" }}
-        priority
+        style={{ width: "100%", height: "auto" }}
       />
 
       <div className="flex justify-center my-5 lg:py-8">
@@ -65,8 +64,7 @@ function Experience() {
                       width={1080}
                       height={200}
                       className="absolute bottom-0 opacity-80"
-                      style={{ width: "auto", height: "auto" }}
-                      priority
+                      style={{ width: "100%", height: "auto" }}
                     />
                     <div className="px-3 py-5">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">

@@ -9,15 +9,14 @@ import Reveal from "../../helper/reveal";
 
 function Education() {
   return (
-    <div id="education" className="relative z-50 border-t my-12 lg:my-24 border-divider">
+    <div id="education" className="section-root relative z-50 border-t my-12 lg:my-24 border-divider">
       <Image
         src="/section.svg"
         alt=""
         width={1572}
         height={795}
         className="absolute top-0 -z-10"
-        style={{ width: "auto", height: "auto" }}
-        priority
+        style={{ width: "100%", height: "auto" }}
       />
       <div className="flex justify-center -translate-y-[1px]">
         <div className="w-3/4">
@@ -56,8 +55,7 @@ function Education() {
                         width={1080}
                         height={200}
                         className="absolute bottom-0 opacity-80"
-                        style={{ width: "auto", height: "auto" }}
-                        priority
+                        style={{ width: "100%", height: "auto" }}
                       />
                       <div className="flex justify-center">
                         <p className="text-xs sm:text-sm text-[#16f2b3]">

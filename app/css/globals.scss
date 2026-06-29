@@ -131,7 +131,9 @@ body {
   max-width: 100%;
   color: var(--text);
   background-color: var(--bg);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* ---- Global keyboard focus ring ----
@@ -174,7 +176,8 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(36px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
@@ -241,20 +244,39 @@ body {
 }
 
 @keyframes blob-float-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(40px, -30px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.95); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
 }
 
 @keyframes blob-float-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-35px, 25px) scale(1.05); }
-  66% { transform: translate(25px, -25px) scale(1.1); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-35px, 25px) scale(1.05);
+  }
+  66% {
+    transform: translate(25px, -25px) scale(1.1);
+  }
 }
 
 @keyframes blob-float-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(30px, 30px) scale(1.15); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, 30px) scale(1.15);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -364,6 +386,16 @@ body {
     opacity: 1;
     transform: translate(-50%, -40%) scale(1);
   }
+}
+
+/* ---- content-visibility: auto — below-fold sections —---
+   Tell the browser to skip rendering of sections until they're
+   near the viewport. This dramatically reduces initial paint time
+   on pages with many sections.
+   .section-root is applied to every top-level section wrapper. */
+.section-root {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px; /* rough placeholder size */
 }
 
 /* ---- Animated gradient text accent ---- */

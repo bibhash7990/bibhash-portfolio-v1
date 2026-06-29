@@ -1,3 +1,4 @@
+"use client";
 // @flow strict
 
 import { skillCategories, skillsData } from "@/utils/data/skills";
@@ -5,10 +6,38 @@ import { skillsImage } from "@/utils/skill-image";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import Reveal from "../../helper/reveal";
+import { useEffect, useRef, useState } from "react";
 
 function Skills() {
+  const ref = useRef(null);
+  const [playMarquee, setPlayMarquee] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    // Respect user preference
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      // Don't play at all — just show static content.
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPlayMarquee(true);
+          // Keep playing even after scroll away (marquee is already mounted)
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div id="skills" className="relative z-50 border-t my-12 lg:my-24 border-divider">
+    <div id="skills" className="section-root relative z-50 border-t my-12 lg:my-24 border-divider">
       <div className="w-[100px] h-[100px] bg-violet-100 rounded-full absolute top-6 left-[42%] translate-x-1/2 filter blur-3xl  opacity-20"></div>
 
       <div className="flex justify-center -translate-y-[1px]">
@@ -27,15 +56,15 @@ function Skills() {
         </div>
       </div>
 
-      {/* Animated icon marquee */}
-      <div className="w-full my-12 overflow-hidden">
+      {/* Animated icon marquee — only starts playing once in view */}
+      <div ref={ref} className="w-full my-12 overflow-hidden">
         <Marquee
           gradient={false}
           speed={80}
           pauseOnHover={true}
           pauseOnClick={true}
           delay={0}
-          play={true}
+          play={playMarquee}
           direction="left"
         >
           {skillsData.map((skill, id) => (
